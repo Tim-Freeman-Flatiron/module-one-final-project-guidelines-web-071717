@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20170731140734) do
     t.string "state"
   end
 
-  create_table "cities_leagues", force: :cascade do |t|
+  create_table "city_leagues", force: :cascade do |t|
     t.integer "city_id"
     t.integer "league_id"
   end
