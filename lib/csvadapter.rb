@@ -5,6 +5,7 @@ module CSVParser
 		require 'pry'
 
 		CSV = '../league_data.csv'
+		
 
 		def fill_table_from_csv(csv)
 			League.delete_all
