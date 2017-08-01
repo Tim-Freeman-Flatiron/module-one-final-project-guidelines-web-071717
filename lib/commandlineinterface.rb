@@ -80,8 +80,8 @@ class CommandLineInterface
 		when "3"
 			league_instance.list_teams
 		when "4"
-			puts "What state do you live in?"
-			league_instance.number_of_teams_in_state(gets.chomp)
+			puts "What state do you live in? (type out the full name)"
+			league_instance.number_of_teams_in_state(get_user_input)
 		end
 
 	end
