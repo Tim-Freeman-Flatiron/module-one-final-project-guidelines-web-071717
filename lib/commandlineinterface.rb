@@ -114,6 +114,8 @@ class CommandLineInterface
 			league_instance.list_teams
 			stars
 			prompt_to_go_to_team_website
+			stars
+			prompt_to_search_for_tickets
 		when "4"
 			puts "What state do you live in? (type out the full name)"
 			stars
@@ -224,6 +226,36 @@ class CommandLineInterface
 			league_input = get_user_input
 		end
 			league_questions(league_input)
+	end
+
+	def prompt_to_search_for_tickets
+		input = want_to_search_for_tickets?
+		until valid_input?(input, ["y","n","exit"])
+			invalid_input
+			input = get_user_input
+		end
+		case input
+		when "y"
+		team = prompt_which_team_to_search
+			until Team.find_by(name: team.titleize)
+				invalid_input
+				team = prompt_team_name
+			end
+			team_instance = Team.find_by(name: team.titleize)
+			team_instance.search_for_tickets
+		when "exit"
+				exit
+		end
+	end
+
+	def want_to_search_for_tickets?
+		puts "Do you want to search for tickets for a team?"
+		get_user_input
+	end
+
+	def prompt_which_team_to_search
+		puts "Which team would you like to search (type the team name exactly as you see it here)"
+		get_user_input
 	end
 
 	def run

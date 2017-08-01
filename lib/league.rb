@@ -59,8 +59,12 @@ class League < ActiveRecord::Base
 		Launchy.open(url)
 	end
 
+	def normalize_name_for_url
+		self.name.downcase
+	end
+
 	def get_league_team_websites
-		page = Nokogiri::HTML(open("http://www.espn.com/#{self.name.downcase}/teams"))
+		page = Nokogiri::HTML(open("http://www.espn.com/#{normalize_name_for_url}/teams"))
 		websites = page.css("a.bi").map do |link|
 			link.attribute('href').value
 		end
