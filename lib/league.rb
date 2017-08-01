@@ -53,5 +53,11 @@ class League < ActiveRecord::Base
 		end
 	end
 
+	def display_league_standings
+		league = self.name.downcase
+		url = "http://www.espn.com/#{league}/standings"
+		Launchy.open(url)
+	end
+
 end
 

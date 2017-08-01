@@ -3,9 +3,9 @@ class CommandLineInterface
 
 	def greet
 		puts "Welcome to the Sports and Cities Analytics Project!"
-		puts "************"
+		stars
 		puts "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams."
-		puts "************"
+		stars
 		puts "You can type 'exit' to quit the program at any time."
 	end
 
@@ -38,12 +38,12 @@ class CommandLineInterface
 	end
 
 	def city_questions(city)
-		puts "************"
+		stars
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
 		puts "   1. What leagues are in #{city.titleize}?"
-		puts "************"
+		stars
 		puts "   2. What teams are in #{city.titleize}?"
-		puts "************"
+		stars
 		puts "   3. How many professional teams does #{city.titleize} have?"
 		input = get_user_input
 		if !valid_input?(input, ["1", "2", "3", "exit"])
@@ -59,13 +59,13 @@ class CommandLineInterface
 	def league_questions(league)
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
 		puts "   1. What cities have #{league.upcase} teams?"
-		puts "************"
+		stars
 		puts "   2. How many #{league.upcase} teams are there overall?"
-		puts "************"
+		stars
 		puts "   3. What are the names of all of the #{league.upcase} teams?"
-		puts "************"
+		stars
 		puts "   4. How many #{league.upcase} teams are there in your state?"
-		puts "************"
+		stars
 		puts "   5. Which cities have the most #{league.upcase} teams?"
 		input = get_user_input
 		if !valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
@@ -110,6 +110,16 @@ class CommandLineInterface
 			input = get_user_input
 			if input == "y"
 				league_instance.league_website
+			elsif input == "exit"
+				exit
+			end
+			stars
+			puts "Would you like to see the #{league.upcase}'s current standings? (y/n)"
+			input = get_user_input
+			if input == "y"
+				league_instance.display_league_standings
+			elsif input == "exit"
+				exit
 			end
 	end
 
@@ -122,7 +132,7 @@ class CommandLineInterface
 	end
 
 	def query_again?
-		puts "************"
+		stars
 		puts "Would you like to do another search? (y/n)"
 		input = get_user_input
 		if input.downcase == "n" || input.downcase == "exit"
