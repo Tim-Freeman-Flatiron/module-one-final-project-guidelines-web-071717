@@ -9,7 +9,7 @@ class CommandLineInterface
 	end
 
 	def greet_statements
-		["Welcome to the Sports and Cities Analytics Project!", "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams.", "You can type 'exit' to quit the program at any time."]
+		["Welcome to the Sports and Cities Analytics Project!", "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams, and you can even visit their websites!", "You can type 'exit' to quit the program at any time."]
 	end
 
 	def valid_input?(input, answer_array)
@@ -17,7 +17,7 @@ class CommandLineInterface
 	end
 
 	def stars
-		puts "************"
+		puts Paint["************", :yellow]
 	end
 
 	def initial_prompt
@@ -52,10 +52,11 @@ class CommandLineInterface
 			puts question
 		end
 		input = get_user_input
-		if !valid_input?(input, ["1", "2", "3", "exit"])
-			puts "#{input} is not a valid input. Please try again."
-			input = city_questions(city)
-		elsif input == "exit"
+		until valid_input?(input, ["1", "2", "3", "exit"])
+			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
+			input = get_user_input
+		end
+		if input == "exit"
 			exit
 		else
 			city_answers(input, city)
@@ -73,10 +74,11 @@ class CommandLineInterface
 			puts question
 		end
 		input = get_user_input
-		if !valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
-			puts "#{input} is not a valid input. Please try again."
-			input = league_questions(league)
-		elsif input == "exit"
+		until valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
+			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
+			input = get_user_input
+		end
+		if input == "exit"
 			exit
 		else
 			league_answers(input, league)
