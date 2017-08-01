@@ -82,10 +82,13 @@ class CommandLineInterface
 		city_instance = City.find_by(name: city.titleize)
 		case question_choice
 		when "1"
+			stars
 			city_instance.list_leagues
 		when "2"
+			stars
 			city_instance.list_teams
 		when "3"
+			stars
 			city_instance.count_teams
 		end
 	end
@@ -94,16 +97,24 @@ class CommandLineInterface
 		league_instance = League.find_by(name: league.upcase)
 		case question_choice
 		when "1"
+			stars
 			league_instance.what_cities
 		when "2"
+			stars
 			league_instance.count_teams
 		when "3"
+			stars
 			league_instance.list_teams
+			stars
 			prompt_to_go_to_team_website
 		when "4"
 			puts "What state do you live in? (type out the full name)"
-			league_instance.number_of_teams_in_state(get_user_input)
+			stars
+			input = get_user_input
+			stars
+			league_instance.number_of_teams_in_state(input)
 		when "5"
+			stars
 			league_instance.cities_with_most_teams
 		end
 			stars

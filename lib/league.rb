@@ -38,7 +38,7 @@ class League < ActiveRecord::Base
 		num = self.cities.select do |city|
 			city.state.downcase == state.downcase
 		end.length
-		puts num
+		puts "#{state.titleize} has #{num} #{self.name} team(s)."
 	end
 
 	def league_website
