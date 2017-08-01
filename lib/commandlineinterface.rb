@@ -5,7 +5,7 @@ class CommandLineInterface
 		puts "Welcome to the Sports and Cities Analytics Project!"
 		puts "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams."
 		puts "Would you like to learn about cities or leagues? (cities/leagues)"
-		input = gets.chomp
+		input = get_user_input
 		answers = ["cities", "leagues"]
 		if !answers.include?(input)
 			puts "#{input} is not a valid input. Please try again."
@@ -13,14 +13,18 @@ class CommandLineInterface
 		elsif input == "cities"
 			City.list_cities
 			puts "Please choose a city to learn more about that cities sports and teams (type the name exactly as you see it)"
-			city_input = gets.chomp
+			city_input = get_user_input
 			city_questions(city_input)
 		else
 			League.list_leagues
 			puts "Please choose a league to learn more about that leagues sports and teams (type the name exactly as you see it)"
-			league_input = gets.chomp
+			league_input = get_user_input
 			league_questions(league_input)
 		end
+	end
+
+	def get_user_input
+		gets.chomp
 	end
 
 	def city_questions(city)
@@ -28,7 +32,7 @@ class CommandLineInterface
 		puts "   1. What leagues are in #{city}?"
 		puts "   2. What teams are in #{city}?"
 		puts "   3. How many professional teams does #{city} have?"
-		input = gets.chomp
+		input = get_user_input
 		questions = ["1", "2", "3"]
 		if !questions.include?(input)
 			puts "#{input} is not a valid input. Please try again."
@@ -44,7 +48,7 @@ class CommandLineInterface
 		puts "   2. How many #{league.upcase} teams are there overall?"
 		puts "   3. What are the names of all of the #{league.upcase} teams?"
 		puts "   4. How many #{league.upcase} teams are there in your state?"
-		input = gets.chomp
+		input = get_user_input
 		questions = ["1", "2", "3", "4"]
 		if !questions.include?(input)
 			puts "#{input} is not a valid input. Please try again."
