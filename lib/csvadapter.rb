@@ -1,19 +1,18 @@
 module CSVParser
+	require 'CSV'
+	require 'pry'
 
 	class Adapter
-		require 'CSV'
-		require 'pry'
-
-		CSV = '../league_data.csv'
 		
+		CSV_FILE = '../data.csv'
 
-		def fill_table_from_csv(csv)
+		def fill_table_from_csv(file)
 			League.delete_all
 			Team.delete_all
 			City.delete_all
 			CityLeague.delete_all
 		
-			CSV.foreach(csv) do |row|
+			CSV.foreach(file) do |row|
 
 				new_city = City.find_or_create_by(name: row[1]) do |city|
 					city.state = row[2]
@@ -36,8 +35,5 @@ module CSVParser
 		team_first_row.destroy
 
 	end
-
-
 	end
-
 end

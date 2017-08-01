@@ -14,7 +14,7 @@ has_many :teams
 	end
 
 	def list_leagues
-		self.leagues.each do |league|
+		self.leagues.uniq.each do |league|
 			puts league.name
 		end
 	end

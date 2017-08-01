@@ -1,3 +1,4 @@
+require 'pry'
 class League < ActiveRecord::Base
 	has_many :teams
 	has_many :city_leagues
@@ -43,6 +44,13 @@ class League < ActiveRecord::Base
 	def league_website
 		url = "http://www.espn.com/#{self.name.downcase}"
 		Launchy.open(url)
+	end
+
+	def cities_with_most_teams
+		city_count_hash = self.cities.group(:name).order('count_id DESC').limit(3).count(:id)
+		city_count_hash.each do |city, count|
+			puts "#{city} has #{count} team(s)."
+		end
 	end
 
 end
