@@ -29,11 +29,20 @@ class League < ActiveRecord::Base
 		end
 	end
 
+	def array_of_team_names
+		self.teams.map {|team| team.name}
+	end
+
 	def number_of_teams_in_state(state)
 		num = self.cities.select do |city|
 			city.state == state
 		end.length
 		puts num
+	end
+
+	def league_website
+		url = "http://www.espn.com/#{self.name.downcase}"
+		Launchy.open(url)
 	end
 
 end

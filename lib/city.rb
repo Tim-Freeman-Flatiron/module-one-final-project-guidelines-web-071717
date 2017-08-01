@@ -21,7 +21,7 @@ has_many :teams
 
 	def list_teams
 		self.teams.each do |team|
-			puts team.name
+			puts "#{team.name} - #{team.league.name}"
 		end
 	end
 
