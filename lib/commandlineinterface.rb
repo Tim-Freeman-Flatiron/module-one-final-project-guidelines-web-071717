@@ -99,6 +99,7 @@ class CommandLineInterface
 			league_instance.count_teams
 		when "3"
 			league_instance.list_teams
+			prompt_to_go_to_team_website
 		when "4"
 			puts "What state do you live in? (type out the full name)"
 			league_instance.number_of_teams_in_state(get_user_input)
@@ -125,6 +126,26 @@ class CommandLineInterface
 
 	def prompt_city_choice
 	puts "Please choose a city to learn more about that cities sports and teams (type the name exactly as you see it)"
+	end
+
+	def prompt_to_go_to_team_website
+		input = prompt_if_wants_team_website
+			until valid_input?(input, ["y","n","exit"])
+				invalid_input
+				input = get_user_input
+			end
+			case input
+			when "y"
+				team = prompt_team_name
+				until Team.find_by(name: team.titleize)
+					invalid_input
+					team = prompt_team_name
+				end
+				team_instance = Team.find_by(name: team.titleize)
+				team_instance.launch_team_website
+			when "exit"
+				exit
+			end
 	end
 
 	def prompt_choose_league
@@ -159,6 +180,16 @@ class CommandLineInterface
 			city_input = get_user_input
 		end
 			city_questions(city_input)
+	end
+
+	def prompt_if_wants_team_website
+		puts "Would you like to go to a team's website? (y/n)"
+		get_user_input
+	end
+
+	def prompt_team_name
+		puts "Which team's site would you like to visit? (type the team name exactly as you see it here)"
+		get_user_input
 	end
 
 	def user_chooses_leagues

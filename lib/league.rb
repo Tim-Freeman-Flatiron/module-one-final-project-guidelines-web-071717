@@ -36,7 +36,7 @@ class League < ActiveRecord::Base
 
 	def number_of_teams_in_state(state)
 		num = self.cities.select do |city|
-			city.state == state
+			city.state.downcase == state.downcase
 		end.length
 		puts num
 	end
@@ -57,6 +57,13 @@ class League < ActiveRecord::Base
 		league = self.name.downcase
 		url = "http://www.espn.com/#{league}/standings"
 		Launchy.open(url)
+	end
+
+	def get_league_team_websites
+		page = Nokogiri::HTML(open("http://www.espn.com/#{self.name.downcase}/teams"))
+		websites = page.css("a.bi").map do |link|
+			link.attribute('href').value
+		end
 	end
 
 end
