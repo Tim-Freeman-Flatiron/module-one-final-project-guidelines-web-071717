@@ -2,11 +2,14 @@ require 'pry'
 class CommandLineInterface
 
 	def greet
-		puts "Welcome to the Sports and Cities Analytics Project!"
-		stars
-		puts "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams."
-		stars
-		puts "You can type 'exit' to quit the program at any time."
+		greet_statements.each do |statement|
+			stars
+			puts statement
+		end
+	end
+
+	def greet_statements
+		["Welcome to the Sports and Cities Analytics Project!", "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams.", "You can type 'exit' to quit the program at any time."]
 	end
 
 	def valid_input?(input, answer_array)
@@ -37,14 +40,17 @@ class CommandLineInterface
 		League.list_leagues
 	end
 
+	def city_questions_array(city)
+		["   1. What leagues are in #{city.titleize}?", "   2. What teams are in #{city.titleize}?", "   3. How many professional teams does #{city.titleize} have?"]
+	end
+
 	def city_questions(city)
 		stars
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
-		puts "   1. What leagues are in #{city.titleize}?"
-		stars
-		puts "   2. What teams are in #{city.titleize}?"
-		stars
-		puts "   3. How many professional teams does #{city.titleize} have?"
+		city_questions_array(city).each do |question|
+			stars
+			puts question
+		end
 		input = get_user_input
 		if !valid_input?(input, ["1", "2", "3", "exit"])
 			puts "#{input} is not a valid input. Please try again."
@@ -56,17 +62,16 @@ class CommandLineInterface
 		end 
 	end
 
+	def league_questions_array(league)
+		["   1. What cities have #{league.upcase} teams?", "   2. How many #{league.upcase} teams are there overall?", "   3. What are the names of all of the #{league.upcase} teams?", "   4. How many #{league.upcase} teams are there in your state?", "   5. Which cities have the most #{league.upcase} teams?"]
+	end
+
 	def league_questions(league)
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
-		puts "   1. What cities have #{league.upcase} teams?"
-		stars
-		puts "   2. How many #{league.upcase} teams are there overall?"
-		stars
-		puts "   3. What are the names of all of the #{league.upcase} teams?"
-		stars
-		puts "   4. How many #{league.upcase} teams are there in your state?"
-		stars
-		puts "   5. Which cities have the most #{league.upcase} teams?"
+		league_questions_array(league).each do |question|
+			stars
+			puts question
+		end
 		input = get_user_input
 		if !valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
 			puts "#{input} is not a valid input. Please try again."

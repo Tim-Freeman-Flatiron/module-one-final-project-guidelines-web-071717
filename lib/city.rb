@@ -14,6 +14,7 @@ has_many :teams
 	end
 
 	def list_leagues
+		puts "#{self.name} is home to team(s) from the "
 		self.leagues.uniq.each do |league|
 			puts league.name
 		end
@@ -26,7 +27,7 @@ has_many :teams
 	end
 
 	def count_teams
-		puts self.teams.count
+		puts "#{self.name.titleize} has #{self.teams.count} professional sports team(s)."
 	end
 
 
