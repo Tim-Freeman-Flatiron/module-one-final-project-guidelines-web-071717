@@ -9,44 +9,16 @@ class CommandLineInterface
 		puts "You can type 'exit' to quit the program at any time."
 	end
 
-	def run
+	def valid_input?(input, answer_array)
+		answer_array.include?(input)
+	end
+
+	def stars
 		puts "************"
+	end
+
+	def initial_prompt
 		puts "Would you like to learn about cities or leagues? (cities/leagues)"
-		input = get_user_input
-		answers = ["cities", "leagues", "exit"]
-		if !answers.include?(input)
-			invalid_input
-			run
-		elsif input == "cities"
-			list_cities
-			puts "************"
-			puts "Please choose a city to learn more about that cities sports and teams (type the name exactly as you see it)"
-			city_input = get_user_input
-			if city_input == "exit"
-				exit
-			end
-			until City.find_by(name: city_input.titleize)
-				invalid_input
-				city_input = get_user_input
-			end
-				city_questions(city_input)
-		elsif input == "leagues"
-			list_leagues
-			puts "************"
-			puts "Please choose a league to learn more about that leagues sports and teams (type the name exactly as you see it)"
-			league_input = get_user_input
-			if league_input == "exit"
-				exit
-			end
-			until League.find_by(name: league_input.upcase)
-				invalid_input
-				league_input = get_user_input
-			end
-				league_questions(league_input)
-			elsif input == "exit"
-				exit
-		end
-		query_again?
 	end
 
 	def get_user_input
@@ -74,8 +46,7 @@ class CommandLineInterface
 		puts "************"
 		puts "   3. How many professional teams does #{city.titleize} have?"
 		input = get_user_input
-		questions = ["1", "2", "3", "exit"]
-		if !questions.include?(input)
+		if !valid_input?(input, ["1", "2", "3", "exit"])
 			puts "#{input} is not a valid input. Please try again."
 			input = city_questions(city)
 		elsif input == "exit"
@@ -97,8 +68,7 @@ class CommandLineInterface
 		puts "************"
 		puts "   5. Which cities have the most #{league.upcase} teams?"
 		input = get_user_input
-		questions = ["1", "2", "3", "4", "5", "exit"]
-		if !questions.include?(input)
+		if !valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
 			puts "#{input} is not a valid input. Please try again."
 			input = league_questions(league)
 		elsif input == "exit"
@@ -135,20 +105,27 @@ class CommandLineInterface
 		when "5"
 			league_instance.cities_with_most_teams
 		end
-			puts "************"
+			stars
 			puts "Would you like to go to #{league.upcase}'s website? (y/n)"
 			input = get_user_input
 			if input == "y"
-				puts "************"
 				league_instance.league_website
 			end
+	end
+
+	def prompt_city_choice
+	puts "Please choose a city to learn more about that cities sports and teams (type the name exactly as you see it)"
+	end
+
+	def prompt_choose_league
+		puts "Please choose a league to learn more about that leagues sports and teams (type the name exactly as you see it)"
 	end
 
 	def query_again?
 		puts "************"
 		puts "Would you like to do another search? (y/n)"
 		input = get_user_input
-		if input.downcase == "n"
+		if input.downcase == "n" || input.downcase == "exit"
 			exit
 		elsif input.downcase == "y"
 			self.run
@@ -158,7 +135,56 @@ class CommandLineInterface
 		end
 	end
 
-	# def run
-	# 	self.greet
-	# end
+	def user_chooses_cities
+		stars
+		list_cities
+		stars
+		prompt_city_choice
+		city_input = get_user_input
+		if city_input == "exit"
+			exit
+		end
+		until City.find_by(name: city_input.titleize)
+			invalid_input
+			city_input = get_user_input
+		end
+			city_questions(city_input)
+	end
+
+	def user_chooses_leagues
+		stars
+		list_leagues
+		stars
+		prompt_choose_league
+		league_input = get_user_input
+		if league_input == "exit"
+			exit
+		end
+		until League.find_by(name: league_input.upcase)
+			invalid_input
+			league_input = get_user_input
+		end
+			league_questions(league_input)
+	end
+
+	def run
+		stars
+		initial_prompt
+		stars
+		input = get_user_input
+		if !valid_input?(input, ["cities", "leagues", "exit"])
+			invalid_input
+			run
+		else 
+			case input
+			when "cities"
+				user_chooses_cities
+			when "leagues"
+				user_chooses_leagues
+			when "exit"
+				exit
+			end
+		end
+		query_again?
+	end
 end

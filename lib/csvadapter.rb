@@ -4,7 +4,7 @@ module CSVParser
 
 	class Adapter
 		
-		CSV_FILE = '../data.csv'
+		file = '../data.csv'
 
 		def fill_table_from_csv(file)
 			League.delete_all

@@ -21,7 +21,7 @@ class League < ActiveRecord::Base
 	end
 
 	def count_teams
-		puts self.teams.uniq.length
+		puts "There are #{self.teams.uniq.length} #{self.name} teams."
 	end
 
 	def list_teams
