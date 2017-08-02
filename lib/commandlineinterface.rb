@@ -272,7 +272,7 @@ class CommandLineInterface
 		team = prompt_which_team_to_search
 			until Team.find_by(name: team.titleize)
 				invalid_input
-				team = prompt_team_name_for_website
+				team = get_user_input
 			end
 			team_instance = Team.find_by(name: team.titleize)
 			team_instance.search_for_tickets
@@ -283,7 +283,7 @@ class CommandLineInterface
 	end
 
 	def want_to_search_for_tickets?
-		puts "Do you want to search for tickets for a team?"
+		puts "Do you want to search for tickets for a team? (y/n)"
 		get_user_input
 	end
 
