@@ -153,6 +153,10 @@ class CommandLineInterface
 			stars
 			puts "Would you like to go to the #{league.upcase}'s website? (y/n)"
 			input = get_user_input
+			until valid_input?(input, ["y","n","exit"])
+				invalid_input
+				input = get_user_input
+			end
 			if input == "y"
 				league_instance.league_website
 			elsif input == "exit"
@@ -161,6 +165,10 @@ class CommandLineInterface
 			stars
 			puts "Would you like to see the #{league.upcase}'s current standings? (y/n)"
 			input = get_user_input
+			until valid_input?(input, ["y","n","exit"])
+				invalid_input
+				input = get_user_input
+			end
 			if input == "y"
 				league_instance.display_league_standings
 			elsif input == "exit"
@@ -301,10 +309,15 @@ class CommandLineInterface
 	end
 
 	def valid_zip_code(input)
-		numbers = ["1","2","3","4","5","6","7","8","9","0"]
-		input.split.each do |num|
-			numbers.include?(num)
+		bool = false
+		if input.length == 5
+			if input.to_i != 0
+				bool = true
+			else
+				bool = false
+			end
 		end
+		bool
 	end
 
 	def run
