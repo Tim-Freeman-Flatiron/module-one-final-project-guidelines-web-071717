@@ -16,6 +16,18 @@ class CommandLineInterface
 		answer_array.include?(input)
 	end
 
+	def valid_league_choices(league)
+		league_questions_array(league).each_index.map do |question|
+			(question + 1).to_s
+		end << "exit"
+	end
+
+	def valid_city_choices(city)
+		city_questions_array(city).each_index.map do |question|
+			(question + 1).to_s
+		end << "exit"
+	end
+
 	def stars
 		puts Paint["************", :yellow]
 	end
@@ -52,7 +64,7 @@ class CommandLineInterface
 			puts question
 		end
 		input = get_user_input
-		until valid_input?(input, ["1", "2", "3", "exit"])
+		until valid_input?(input, valid_city_choices(city))
 			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
 			input = get_user_input
 		end
@@ -74,7 +86,7 @@ class CommandLineInterface
 			puts question
 		end
 		input = get_user_input
-		until valid_input?(input, ["1", "2", "3", "4", "5", "exit"])
+		until valid_input?(input, valid_league_choices(league))
 			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
 			input = get_user_input
 		end
@@ -127,7 +139,7 @@ class CommandLineInterface
 			league_instance.cities_with_most_teams
 		end
 			stars
-			puts "Would you like to go to #{league.upcase}'s website? (y/n)"
+			puts "Would you like to go to the #{league.upcase}'s website? (y/n)"
 			input = get_user_input
 			if input == "y"
 				league_instance.league_website
@@ -156,10 +168,10 @@ class CommandLineInterface
 			end
 			case input
 			when "y"
-				team = prompt_team_name
+				team = prompt_team_name_for_website
 				until Team.find_by(name: team.titleize)
 					invalid_input
-					team = prompt_team_name
+					team = prompt_team_name_for_website
 				end
 				team_instance = Team.find_by(name: team.titleize)
 				team_instance.launch_team_website
@@ -207,7 +219,7 @@ class CommandLineInterface
 		get_user_input
 	end
 
-	def prompt_team_name
+	def prompt_team_name_for_website
 		puts "Which team's site would you like to visit? (type the team name exactly as you see it here)"
 		get_user_input
 	end
@@ -236,16 +248,18 @@ class CommandLineInterface
 		end
 		case input
 		when "y"
+		stars
 		team = prompt_which_team_to_search
 			until Team.find_by(name: team.titleize)
 				invalid_input
-				team = prompt_team_name
+				team = prompt_team_name_for_website
 			end
 			team_instance = Team.find_by(name: team.titleize)
 			team_instance.search_for_tickets
 		when "exit"
 				exit
 		end
+		
 	end
 
 	def want_to_search_for_tickets?

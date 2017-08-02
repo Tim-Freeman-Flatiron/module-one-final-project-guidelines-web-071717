@@ -29,6 +29,4 @@ has_many :teams
 	def count_teams
 		puts "#{self.name.titleize} has #{self.teams.count} professional sports team(s)."
 	end
-
-
 end
