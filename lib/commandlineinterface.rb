@@ -41,7 +41,7 @@ class CommandLineInterface
 	end
 
 	def invalid_input
-		puts "That input is not valid. Please try again."
+		puts Paint["That input is not valid. Please try again.", :red, :bright]
 	end
 
 	def list_cities
@@ -109,6 +109,18 @@ class CommandLineInterface
 		when "3"
 			stars
 			city_instance.count_teams
+		end
+		stars
+		input = do_you_want_directions?(city)
+		until valid_input?(input, ["y","n","exit"])
+			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
+			input = get_user_input
+		end
+		case input
+		when "y"
+			give_directions_to_city(city)
+		when "exit"
+			exit
 		end
 	end
 
@@ -272,24 +284,47 @@ class CommandLineInterface
 		get_user_input
 	end
 
-	def run
-		stars
-		initial_prompt
-		stars
+	def do_you_want_directions?(city)
+		puts "Would you like to directions to #{city.titleize} so that you can catch a game? (y/n)"
+		get_user_input
+	end
+
+	def give_directions_to_city(city)
+		puts "What is the ZIP code of your current location?"
 		input = get_user_input
-		if !valid_input?(input, ["cities", "leagues", "exit"])
+		until valid_zip_code(input)
 			invalid_input
-			run
-		else 
-			case input
-			when "cities"
-				user_chooses_cities
-			when "leagues"
-				user_chooses_leagues
-			when "exit"
-				exit
-			end
+			input = get_user_input
 		end
-		query_again?
+		state = City.find_by(name: city.titleize).state
+		Launchy.open("https://www.google.com/maps/dir/#{input}/#{city}+#{state}")
+	end
+
+	def valid_zip_code(input)
+		numbers = ["1","2","3","4","5","6","7","8","9","0"]
+		input.split.each do |num|
+			numbers.include?(num)
+		end
+	end
+
+	def run
+			stars
+			initial_prompt
+			stars
+			input = get_user_input
+			if !valid_input?(input, ["cities", "leagues", "exit"])
+				invalid_input
+				run
+			else 
+				case input
+				when "cities"
+					user_chooses_cities
+				when "leagues"
+					user_chooses_leagues
+				when "exit"
+					exit
+				end
+			end
+			query_again?
 	end
 end
