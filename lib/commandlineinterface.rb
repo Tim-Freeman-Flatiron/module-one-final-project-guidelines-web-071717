@@ -76,7 +76,7 @@ class CommandLineInterface
 	end
 
 	def league_questions_array(league)
-		["   1. What cities have #{league.upcase} teams?", "   2. How many #{league.upcase} teams are there overall?", "   3. What are the names of all of the #{league.upcase} teams?", "   4. How many #{league.upcase} teams are there in your state?", "   5. Which cities have the most #{league.upcase} teams?"]
+		["   1. What cities have #{league.upcase} teams?", "   2. How many #{league.upcase} teams are there overall?", "   3. What are the names of all of the #{league.upcase} teams?", "   4. How many #{league.upcase} teams are there in your state?", "   5. Which cities have the most #{league.upcase} teams?", "   6. Which #{league.upcase} team has the most championships?", "   7. Which #{league.upcase} team has the most playoff appearances?", "   8. Which #{league.upcase} team has the most wins?", "   9. Which #{league.upcase} team has the most losses?", "   10. What's the average number of wins for all #{league.upcase} franchises?", "   11. What's the average number of playoff appearances for all #{league.upcase} teams?", "   12. Which professional sports team has the most championships overall?"]
 	end
 
 	def league_questions(league)
@@ -149,7 +149,40 @@ class CommandLineInterface
 		when "5"
 			stars
 			league_instance.cities_with_most_teams
+		when "6"
+			stars
+			league_instance.team_with_most_championships
+		when "7"
+			stars
+			league_instance.team_with_most_playoffs
+		when "8"
+			stars
+			league_instance.team_with_most_wins
+		when "9"
+			stars
+			league_instance.team_with_most_losses
+		when "10"
+			stars
+			league_instance.average_team_wins
+		when "11"
+			stars
+			league_instance.average_playoffs
+		when "12"
+			stars
+			Team.team_with_most_championships_overall
 		end
+		stars
+		puts "Would you like to ask another question about the #{league.upcase}?"
+		input = get_user_input
+		until valid_input?(input, ["y","n","exit"])
+				invalid_input
+				input = get_user_input
+			end
+			if input == "y"
+				league_questions(league)
+			elsif input == "exit"
+				exit
+			end
 			stars
 			puts "Would you like to go to the #{league.upcase}'s website? (y/n)"
 			input = get_user_input

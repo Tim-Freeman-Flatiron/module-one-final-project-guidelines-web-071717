@@ -21,7 +21,6 @@ has_many :teams
 	end
 
 	def list_teams
-		
 		self.teams.each do |team|
 			puts "#{self.name} is home to the #{team.name} of the #{team.league.name}."
 		end

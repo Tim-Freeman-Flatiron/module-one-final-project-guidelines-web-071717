@@ -70,5 +70,37 @@ class League < ActiveRecord::Base
 		end
 	end
 
+	def get_array_of_league_teams
+		self.teams
+	end
+
+	def team_with_most_championships
+		team = self.teams.select("name", "championships").order(championships: :desc).limit(1)[0]
+		puts "The #{team.name} have the most with #{team.championships} championships."
+	end
+
+	def team_with_most_playoffs
+		team = self.teams.select("name", "playoffs").order(playoffs: :desc).limit(1)[0]
+		puts "The #{team.name} have the most with #{team.playoffs} playoff appearances."
+	end
+
+	def team_with_most_wins
+		team = self.teams.select("name", "wins").order(wins: :desc).limit(1)[0]
+		puts "The #{team.name} have the most with #{team.wins} wins."	
+	end
+
+	def team_with_most_losses
+	team = self.teams.select("name", "losses").order(losses: :desc).limit(1)[0]
+	puts "The #{team.name} have the most with #{team.losses} losses."
+	end
+
+	def average_team_wins
+		puts "The average team in the #{self.name} has #{self.teams.average("wins").to_i} wins."
+	end
+
+	def average_playoffs
+		puts self.teams.average("playoffs").to_i
+	end
+
 end
 

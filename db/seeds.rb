@@ -1,7 +1,9 @@
 
 file = './data.csv'
+stats_file = './team_stats.csv'
 
 CSVParser::Adapter.new.fill_table_from_csv(file)
+CSVParser::Adapter.new.fill_teams_stats(stats_file)
 
 # def fill_table_from_csv(file)
 # 	League.delete_all

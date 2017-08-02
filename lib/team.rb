@@ -28,10 +28,16 @@ belongs_to :league
 	end
 
 	def search_for_tickets
-		team_name = normalize_name_for_url
+		team_name = self.name.downcase.split(" ").join("%20")
 		league_name = normalize_league_name_for_url
 		website = "https://www.stubhub.com/find/s/?q=#{league_name}%20#{team_name}"
 		Launchy.open(website)
+	end
+
+	def self.team_with_most_championships_overall
+		team = Team.select("name", "championships").order(championships: :desc).limit(1)[0]
+
+		puts "The #{team.name} have the most championships of any professional sports teams with #{team.championships} championships."
 	end
 
 
