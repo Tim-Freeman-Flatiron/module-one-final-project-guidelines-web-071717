@@ -40,8 +40,8 @@ class CommandLineInterface
 		gets.chomp
 	end
 
-	def invalid_input
-		puts Paint["That input is not valid. Please try again.", :red, :bright]
+	def invalid_input(input="That input")
+		puts Paint["#{input} is not valid. Please try again.", :red, :bright]
 	end
 
 	def list_cities
@@ -87,7 +87,7 @@ class CommandLineInterface
 		end
 		input = get_user_input
 		until valid_input?(input, valid_league_choices(league))
-			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
+			invalid_input(input)
 			input = get_user_input
 		end
 		if input == "exit"
@@ -113,7 +113,7 @@ class CommandLineInterface
 		stars
 		input = do_you_want_directions?(city)
 		until valid_input?(input, ["y","n","exit"])
-			puts Paint["#{input} is not a valid input. Please try again.", :red, :bright]
+			invalid_input(input)
 			input = get_user_input
 		end
 		case input
@@ -141,9 +141,16 @@ class CommandLineInterface
 			stars
 			prompt_to_search_for_tickets
 		when "4"
-			puts "What state do you live in? (type out the full name)"
 			stars
+			puts "What state do you live in? (type out the full name)"
 			input = get_user_input
+			if input == "exit"
+				exit
+			end
+			until valid_input?(input.titleize, states)
+				invalid_input(input)
+				input = get_user_input
+			end
 			stars
 			league_instance.number_of_teams_in_state(input)
 		when "5"
@@ -175,19 +182,24 @@ class CommandLineInterface
 		puts "Would you like to ask another question about the #{league.upcase}?"
 		input = get_user_input
 		until valid_input?(input, ["y","n","exit"])
-				invalid_input
-				input = get_user_input
-			end
-			if input == "y"
-				league_questions(league)
-			elsif input == "exit"
-				exit
-			end
+			invalid_input(input)
+			input = get_user_input
+		end
+		if input == "y"
+			league_questions(league)
+		elsif input == "exit"
+			exit
+		elsif input == "n"
+			league_questions_wrapup(league)
+		end
+	end
+			
+	def league_questions_wrapup(league)
 			stars
 			puts "Would you like to go to the #{league.upcase}'s website? (y/n)"
 			input = get_user_input
 			until valid_input?(input, ["y","n","exit"])
-				invalid_input
+				invalid_input(input)
 				input = get_user_input
 			end
 			if input == "y"
@@ -199,7 +211,7 @@ class CommandLineInterface
 			puts "Would you like to see the #{league.upcase}'s current standings? (y/n)"
 			input = get_user_input
 			until valid_input?(input, ["y","n","exit"])
-				invalid_input
+				invalid_input(input)
 				input = get_user_input
 			end
 			if input == "y"
@@ -216,14 +228,14 @@ class CommandLineInterface
 	def prompt_to_go_to_team_website
 		input = prompt_if_wants_team_website
 			until valid_input?(input, ["y","n","exit"])
-				invalid_input
+				invalid_input(input)
 				input = get_user_input
 			end
 			case input
 			when "y"
 				team = prompt_team_name_for_website
 				until Team.find_by(name: team.titleize)
-					invalid_input
+					invalid_input(input)
 					team = prompt_team_name_for_website
 				end
 				team_instance = Team.find_by(name: team.titleize)
@@ -246,7 +258,7 @@ class CommandLineInterface
 		elsif input.downcase == "y"
 			self.run
 		else
-			invalid_input
+			invalid_input(input)
 			query_again?
 		end
 	end
@@ -261,7 +273,7 @@ class CommandLineInterface
 			exit
 		end
 		until City.find_by(name: city_input.titleize)
-			invalid_input
+			invalid_input(city_input)
 			city_input = get_user_input
 		end
 			city_questions(city_input)
@@ -287,7 +299,7 @@ class CommandLineInterface
 			exit
 		end
 		until League.find_by(name: league_input.upcase)
-			invalid_input
+			invalid_input(league_input)
 			league_input = get_user_input
 		end
 			league_questions(league_input)
@@ -296,7 +308,7 @@ class CommandLineInterface
 	def prompt_to_search_for_tickets
 		input = want_to_search_for_tickets?
 		until valid_input?(input, ["y","n","exit"])
-			invalid_input
+			invalid_input(input)
 			input = get_user_input
 		end
 		case input
@@ -304,7 +316,7 @@ class CommandLineInterface
 		stars
 		team = prompt_which_team_to_search
 			until Team.find_by(name: team.titleize)
-				invalid_input
+				invalid_input(input)
 				team = get_user_input
 			end
 			team_instance = Team.find_by(name: team.titleize)
@@ -334,7 +346,7 @@ class CommandLineInterface
 		puts "What is the ZIP code of your current location?"
 		input = get_user_input
 		until valid_zip_code(input)
-			invalid_input
+			invalid_input(input)
 			input = get_user_input
 		end
 		state = City.find_by(name: city.titleize).state
@@ -353,13 +365,17 @@ class CommandLineInterface
 		bool
 	end
 
+	def states
+		states = ["Alaska","Alabama","Arkansas","American Samoa","Arizona","California","Colorado","Connecticut","District of Columbia","Delaware","Florida","Georgia","Guam","Hawaii","Iowa","Idaho","Illinois","Indiana","Kansas","Kentucky","Louisiana","Massachusetts","Maryland","Maine","Michigan","Minnesota","Missouri","Mississippi","Montana","North Carolina","North Dakota","Nebraska","New Hampshire","New Jersey","New Mexico","Nevada","New York","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Virginia","Virgin Islands","Vermont","Washington","Wisconsin","West Virginia","Wyoming"]
+	end
+
 	def run
 			stars
 			initial_prompt
 			stars
-			input = get_user_input
+			input = get_user_input.downcase
 			if !valid_input?(input, ["cities", "leagues", "exit"])
-				invalid_input
+				invalid_input(input)
 				run
 			else 
 				case input

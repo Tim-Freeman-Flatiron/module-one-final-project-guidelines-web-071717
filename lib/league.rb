@@ -99,7 +99,7 @@ class League < ActiveRecord::Base
 	end
 
 	def average_playoffs
-		puts self.teams.average("playoffs").to_i
+		puts "The average team in the #{self.name} has #{self.teams.average("playoffs").to_i} playoff appearances."
 	end
 
 end
