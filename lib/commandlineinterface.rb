@@ -9,7 +9,7 @@ class CommandLineInterface
 	end
 
 	def greet_statements
-		["Welcome to the Sports and Cities Analytics Project!", "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams, and you can even visit their websites!", "You can type 'exit' to quit the program at any time."]
+		["Welcome to the Sports and Cities Analytics Project!", "Here you can learn about the MLB, NHL, NFL, and NBA and the cities in which those leagues have teams. You can also visit team websites, league websites, check league standings, search for tickets for teams, and get directions to cities so that you can catch a game there!", "You can type 'exit' to quit the program at any time."]
 	end
 
 	def valid_input?(input, answer_array)
