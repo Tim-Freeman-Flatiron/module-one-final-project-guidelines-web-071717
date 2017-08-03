@@ -49,5 +49,6 @@ module CSVParser
 				team.update(games: row[2], wins: row[3], losses: row[4], winning_percentage: row[5], playoffs: row[6], championships: row[7])
 			end
 		end
+		
 	end
 end

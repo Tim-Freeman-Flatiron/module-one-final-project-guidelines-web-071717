@@ -190,11 +190,11 @@ class CommandLineInterface
 		elsif input == "exit"
 			exit
 		elsif input == "n"
-			league_questions_wrapup(league)
+			league_questions_wrapup(league, league_instance)
 		end
 	end
 			
-	def league_questions_wrapup(league)
+	def league_questions_wrapup(league, league_instance)
 			stars
 			puts "Would you like to go to the #{league.upcase}'s website? (y/n)"
 			input = get_user_input
