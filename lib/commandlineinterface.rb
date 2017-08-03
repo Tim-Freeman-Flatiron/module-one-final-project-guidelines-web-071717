@@ -118,7 +118,13 @@ class CommandLineInterface
 		end
 		case input
 		when "y"
-			give_directions_to_city(city)
+			puts "What is the ZIP code of your current location?"
+			input = get_user_input
+			until valid_zip_code(input)
+			invalid_input(input)
+			input = get_user_input
+		end
+			city_instance.give_directions_to_city(input)
 		when "exit"
 			exit
 		end
@@ -340,17 +346,6 @@ class CommandLineInterface
 	def do_you_want_directions?(city)
 		puts "Would you like to directions to #{city.titleize} so that you can catch a game? (y/n)"
 		get_user_input
-	end
-
-	def give_directions_to_city(city)
-		puts "What is the ZIP code of your current location?"
-		input = get_user_input
-		until valid_zip_code(input)
-			invalid_input(input)
-			input = get_user_input
-		end
-		state = City.find_by(name: city.titleize).state
-		Launchy.open("https://www.google.com/maps/dir/#{input}/#{city}+#{state}")
 	end
 
 	def valid_zip_code(input)

@@ -29,4 +29,8 @@ has_many :teams
 	def count_teams
 		puts "#{self.name.titleize} has #{self.teams.count} professional sports team(s)."
 	end
+
+	def give_directions_to_city(zipcode)
+		Launchy.open("https://www.google.com/maps/dir/#{zipcode}/#{self.name}+#{self.state}")
+	end
 end
