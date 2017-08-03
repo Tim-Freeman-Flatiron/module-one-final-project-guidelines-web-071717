@@ -21,7 +21,7 @@ class League < ActiveRecord::Base
 	end
 
 	def count_teams
-		puts "There are #{self.teams.uniq.length} #{self.name} teams."
+		puts Paint["There are #{self.teams.uniq.length} #{self.name} teams.", Paint.random]
 	end
 
 	def list_teams
@@ -38,7 +38,7 @@ class League < ActiveRecord::Base
 		num = self.cities.select do |city|
 			city.state.downcase == state.downcase
 		end.length
-		puts "#{state.titleize} has #{num} #{self.name} team(s)."
+		puts Paint["#{state.titleize} has #{num} #{self.name} team(s).", Paint.random]
 	end
 
 	def league_website
@@ -49,7 +49,7 @@ class League < ActiveRecord::Base
 	def cities_with_most_teams
 		city_count_hash = self.cities.group(:name).order('count_id DESC').limit(3).count(:id)
 		city_count_hash.each do |city, count|
-			puts "#{city} has #{count} team(s)."
+			puts Paint["#{city} has #{count} team(s).", Paint.random]
 		end
 	end
 
@@ -76,30 +76,30 @@ class League < ActiveRecord::Base
 
 	def team_with_most_championships
 		team = self.teams.select("name", "championships").order(championships: :desc).limit(1)[0]
-		puts "The #{team.name} have the most with #{team.championships} championships."
+		puts Paint["The #{team.name} have the most with #{team.championships} championships.", Paint.random]
 	end
 
 	def team_with_most_playoffs
 		team = self.teams.select("name", "playoffs").order(playoffs: :desc).limit(1)[0]
-		puts "The #{team.name} have the most with #{team.playoffs} playoff appearances."
+		puts Paint["The #{team.name} have the most with #{team.playoffs} playoff appearances.", Paint.random]
 	end
 
 	def team_with_most_wins
 		team = self.teams.select("name", "wins").order(wins: :desc).limit(1)[0]
-		puts "The #{team.name} have the most with #{team.wins} wins."	
+		puts Paint["The #{team.name} have the most with #{team.wins} wins.", Paint.random]
 	end
 
 	def team_with_most_losses
 	team = self.teams.select("name", "losses").order(losses: :desc).limit(1)[0]
-	puts "The #{team.name} have the most with #{team.losses} losses."
+	puts Paint["The #{team.name} have the most with #{team.losses} losses.", Paint.random]
 	end
 
 	def average_team_wins
-		puts "The average team in the #{self.name} has #{self.teams.average("wins").to_i} wins."
+		puts Paint["The average team in the #{self.name} has #{self.teams.average("wins").to_i} wins.", Paint.random]
 	end
 
 	def average_playoffs
-		puts "The average team in the #{self.name} has #{self.teams.average("playoffs").to_i} playoff appearances."
+		puts Paint["The average team in the #{self.name} has #{self.teams.average("playoffs").to_i} playoff appearances.", Paint.random]
 	end
 
 end

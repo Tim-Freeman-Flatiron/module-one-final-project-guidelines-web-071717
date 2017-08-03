@@ -53,7 +53,7 @@ class CommandLineInterface
 	end
 
 	def city_questions_array(city)
-		["   1. What leagues are in #{city.titleize}?", "   2. What teams are in #{city.titleize}?", "   3. How many professional teams does #{city.titleize} have?"]
+		["1. What leagues are in #{city.titleize}?", "2. What teams are in #{city.titleize}?", "3. How many professional teams does #{city.titleize} have?", "4. Which city has the most professional sports teams overall?"]
 	end
 
 	def city_questions(city)
@@ -61,7 +61,7 @@ class CommandLineInterface
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
 		city_questions_array(city).each do |question|
 			stars
-			puts question
+			puts "   " + question
 		end
 		input = get_user_input
 		until valid_input?(input, valid_city_choices(city))
@@ -76,14 +76,14 @@ class CommandLineInterface
 	end
 
 	def league_questions_array(league)
-		["   1. What cities have #{league.upcase} teams?", "   2. How many #{league.upcase} teams are there overall?", "   3. What are the names of all of the #{league.upcase} teams?", "   4. How many #{league.upcase} teams are there in your state?", "   5. Which cities have the most #{league.upcase} teams?", "   6. Which #{league.upcase} team has the most championships?", "   7. Which #{league.upcase} team has the most playoff appearances?", "   8. Which #{league.upcase} team has the most wins?", "   9. Which #{league.upcase} team has the most losses?", "   10. What's the average number of wins for all #{league.upcase} franchises?", "   11. What's the average number of playoff appearances for all #{league.upcase} teams?", "   12. Which professional sports team has the most championships overall?"]
+		["1. What cities have #{league.upcase} teams?", "2. How many #{league.upcase} teams are there overall?", "3. What are the names of all of the #{league.upcase} teams?", "4. How many #{league.upcase} teams are there in your state?", "5. Which cities have the most #{league.upcase} teams?", "6. Which #{league.upcase} team has the most championships?", "7. Which #{league.upcase} team has the most playoff appearances?", "8. Which #{league.upcase} team has the most wins?", "9. Which #{league.upcase} team has the most losses?", "10. What's the average number of wins for all #{league.upcase} franchises?", "11. What's the average number of playoff appearances for all #{league.upcase} teams?", "12. Which professional sports team has the most championships overall?"]
 	end
 
 	def league_questions(league)
 		puts "Choose one of the following questions by typing in the number of the question and hitting enter:"
 		league_questions_array(league).each do |question|
 			stars
-			puts question
+			puts "   " + question
 		end
 		input = get_user_input
 		until valid_input?(input, valid_league_choices(league))
@@ -109,6 +109,9 @@ class CommandLineInterface
 		when "3"
 			stars
 			city_instance.count_teams
+		when "4"
+			stars
+			City.city_with_most_teams_overall
 		end
 		stars
 		input = do_you_want_directions?(city)
